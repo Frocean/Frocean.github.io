@@ -2,7 +2,7 @@
 项目概述
 ---------
 
-这是基于 Hugo 的静态网站源码（Frocean.github.io）。我已将原先的静态页面迁移为 Hugo 项目，包含基本模板、样式与示例内容，便于使用 Hugo 本地预览与生成部署到 GitHub Pages。
+基于 Hugo 的静态网站源码（Frocean.github.io），包含基本模板、样式与示例内容，便于使用 Hugo 本地预览与生成部署到 GitHub Pages。
 
 项目结构（重要目录）
 - config.toml              — Hugo 配置文件
@@ -24,30 +24,23 @@
 
    hugo
 
-关于图片迁移
-- 如果你的图片原先位于仓库根的 images/ 目录，已提供 scripts/move-images.ps1 脚本用于迁移（若已经手动迁移，该脚本可删除或忽略）。当前静态图片应放在 static/images/ 下。
-
 基于标签的自动归类（Taxonomies）
 - 本站使用 Hugo 的 tags taxonomy 管理文章归类。所有文章均放在 content/posts/，并在 front matter 中通过 tags 字段指定标签，例如：
 
   ---
   title: "深入理解 CSS Grid 布局"
-  date: 2026-06-20
+  date: 2026-07-14
   tags: ["tech", "css", "前端"]
   ---
 
 - 通过 data/navigation.yaml 配置哪些标签显示在侧边导航，并在 layouts/partials/sidebar.html 中读取，渲染左侧导航并高亮当前标签页或当前文章的标签。
 
 GitHub Actions 与部署
-- 已添加 .github/workflows/deploy.yml，用于在 push 到 master 时构建并部署到 GitHub Pages。请确认仓库设置中允许 Actions 使用写入 Pages 的权限（Settings → Actions → General → Workflow permissions 设置为 Read and write）。如需使用个人访问令牌 (PAT)，请在仓库 Secrets 中添加并告知，我可以帮你切换工作流配置。
+已添加 .github/workflows/deploy.yml，用于在 push 到 main 时构建并部署到 GitHub Pages。请确认仓库设置中允许 Actions 使用写入 Pages 的权限（Settings → Actions → General → Workflow permissions 设置为 Read and write）。如需使用个人访问令牌 (PAT)，请在仓库 Secrets 中添加并告知，我可以帮你切换工作流配置。
 
 清理说明
-- 我已移除构建产物 public/（若你本地仍有该目录，可以删除以避免将生成文件提交到源码仓库）。
+- 已移除构建产物 public/（若你本地仍有该目录，可以删除以避免将生成文件提交到源码仓库）。
 - 已将 IDE 工作区目录 .vs 加入 .gitignore，避免将本地开发环境文件纳入版本控制。
-
-后续建议
-- 若希望更接近原先外观，可继续调整 layouts/ 中的模板或引入成熟主题。
-- 需要我为你把所有文章的更完整内容迁移为 Markdown 文件，或配置 RSS、sitemap、社交卡片等功能，请告知具体需求。
 
 项目细节与功能说明
 ------------------
@@ -73,7 +66,7 @@ GitHub Actions 与部署
 - 标签归档页（/tags/<tag>/）的标题优先显示 data/navigation.yaml 中配置的 title（如果存在），否则显示默认的标签名称。
 
 关于 Hugo 报警（deprecation warnings）与已做的调整：
-- WARN: languageCode 已弃用 — 我已将 config.toml 中的 languageCode 替换为 locale（例如 locale = "zh-CN"）。
+- WARN: languageCode 已弃用 — 已将 config.toml 中的 languageCode 替换为 locale（例如 locale = "zh-CN"）。
 - WARN: .Site.Data 已弃用 — 模板中已将 .Site.Data 改为 hugo.Data（例如 hugo.Data.navigation.items），以兼容最新 Hugo 版本并避免未来移除时出错。
 
 样式修改位置
@@ -84,13 +77,9 @@ GitHub Actions 与部署
 2. 若该 tag 需要出现在侧栏：在 data/navigation.yaml 中添加对应项（tag 与文章 tags 一致），并设定 title（显示名称）。
 3. 运行本地预览： hugo server -D -s .，检查侧栏与归档页是否如预期显示。
 
-如果需要，我可以：
-- 批量扫描 content/posts 中未注册到 data/navigation.yaml 的 tags，并生成一个建议的 navigation.yaml 草稿供你审阅；
-- 或将侧栏改为自动列出所有 tags（无需手动维护 navigation.yaml），但这会失去自定义显示名称与排序能力。
-
-安全性与隐私检查（已执行）
+安全性与隐私检查
 --------------------------
-- 我已检查仓库中是否包含明显的密钥或凭证（如 PAT、私钥、明文密码、.env 文件等），未发现可疑项。请在添加第三方服务或密钥时务必使用 GitHub Secrets 而非直接写入仓库。
+- 已检查仓库中是否包含明显的密钥或凭证（如 PAT、私钥、明文密码、.env 文件等），未发现可疑项。请在添加第三方服务或密钥时务必使用 GitHub Secrets 而非直接写入仓库。
 - 已移除/建议移除的临时或构建产物：public/（构建输出）、.vs/（Visual Studio 工作区）及一次性迁移脚本（若存在）。这些项目已加入 .gitignore，避免未来误提交。
 
 已删除或清理的临时文件说明
