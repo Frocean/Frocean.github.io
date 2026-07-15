@@ -36,7 +36,7 @@
 - 通过 data/navigation.yaml 配置哪些标签显示在侧边导航，并在 layouts/partials/sidebar.html 中读取，渲染左侧导航并高亮当前标签页或当前文章的标签。
 
 GitHub Actions 与部署
-已添加 .github/workflows/deploy.yml，用于在 push 到 main 时构建并部署到 GitHub Pages。请确认仓库设置中允许 Actions 使用写入 Pages 的权限（Settings → Actions → General → Workflow permissions 设置为 Read and write）。如需使用个人访问令牌 (PAT)，请在仓库 Secrets 中添加并告知，我可以帮你切换工作流配置。
+已添加 .github/workflows/deploy.yml，用于在 push 到 main 时构建并部署到 GitHub Pages（工作流已升级以使用较新的 Actions 版本以避免 Node.js v20 / artifacts v3 的弃用警告）。请确认仓库设置中允许 Actions 使用写入 Pages 的权限（Settings → Actions → General → Workflow permissions 设置为 Read and write）。如需使用个人访问令牌 (PAT)，请在仓库 Secrets 中添加并告知，我可以帮你切换工作流配置。
 
 清理说明
 - 已移除构建产物 public/（若你本地仍有该目录，可以删除以避免将生成文件提交到源码仓库）。
