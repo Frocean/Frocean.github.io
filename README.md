@@ -88,3 +88,21 @@ GitHub Actions 与部署
 - 批量扫描 content/posts 中未注册到 data/navigation.yaml 的 tags，并生成一个建议的 navigation.yaml 草稿供你审阅；
 - 或将侧栏改为自动列出所有 tags（无需手动维护 navigation.yaml），但这会失去自定义显示名称与排序能力。
 
+安全性与隐私检查（已执行）
+--------------------------
+- 我已检查仓库中是否包含明显的密钥或凭证（如 PAT、私钥、明文密码、.env 文件等），未发现可疑项。请在添加第三方服务或密钥时务必使用 GitHub Secrets 而非直接写入仓库。
+- 已移除/建议移除的临时或构建产物：public/（构建输出）、.vs/（Visual Studio 工作区）及一次性迁移脚本（若存在）。这些项目已加入 .gitignore，避免未来误提交。
+
+已删除或清理的临时文件说明
+- public/：Hugo 的生成目录，已从仓库中移除并加入 .gitignore。如果你需要保存部署输出，请使用专门的 gh-pages 分支或 GitHub Actions 部署步骤。
+- .vs/：Visual Studio 本地工作区文件夹已加入 .gitignore，请在提交前确保本地未包含此目录。
+
+如何避免泄露敏感信息
+- 不要将 .env、.key、.pem、私钥文件或个人访问令牌直接提交到代码库。
+- 在需要 CI/CD 密钥时，请在仓库 Settings → Secrets 中添加，并在工作流中通过 secrets.NAME 调用。
+
+最新变动记录
+- 修复 Hugo 弃用警告：languageCode -> locale；.Site.Data -> hugo.Data。
+- 侧栏导航使用 data/navigation.yaml 管理，可自定义显示名称；已添加 obsidian 支持。
+- 单篇页面面包屑现在优先显示 navigation.yaml 中的 title（若配置），并保留文章原始 tag 显示行为。
+

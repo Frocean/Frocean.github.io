@@ -3,6 +3,11 @@
 /resources/_gen/
 /.hugo_build.lock
 
+# Temporary / build output
+public/
+public/**
+.cache/
+
 # System
 .DS_Store
 Thumbs.db
