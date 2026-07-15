@@ -1,0 +1,47 @@
+<aside class="sidebar-card" id="sidebarCard">
+    <div class="sidebar-avatar-section">
+        <div class="avatar-wrapper" title="点击更换头像">
+            <img src="/images/62813705.png" alt="用户头像">
+        </div>
+        <div class="sidebar-avatar-name">Frocean</div>
+        <div class="sidebar-avatar-detail">企鹅为bot账号喵</div>
+        <div class="sidebar-social-links">
+            <a href="https://twitter.com/Koricry" target="_blank" rel="noopener noreferrer" title="推特"><i class="fab fa-twitter"></i></a>
+            <a href="mailto:MoetaCocoa@gmail.com" target="_blank" rel="noopener noreferrer" title="谷歌邮箱"><i class="fas fa-envelope"></i></a>
+            <a href="https://github.com/Frocean" target="_blank" rel="noopener noreferrer" title="Github"><i class="fab fa-github"></i></a>
+            <a href="tencent://message/?uin=2773431324&Site=&Menu=yes" target="_blank" rel="noopener noreferrer" title="QQ"><i class="fab fa-qq"></i></a>
+        </div>
+    </div>
+
+    <div class="sidebar-toc-title">导航</div>
+    <ul class="sidebar-toc-list">
+        {{ with hugo.Data.navigation.items }}
+        {{ $current := $.Page }}
+        {{ range . }}
+        {{ $tag := .tag }}
+        {{ $count := len (where $.Site.RegularPages "Params.tags" "intersect" (slice $tag)) }}
+        {{ $isActive := false }}
+        {{ with $current.Params.tags }}
+        {{ if in . $tag }}
+        {{ $isActive = true }}
+        {{ end }}
+        {{ end }}
+        {{ if not $isActive }}
+        {{ if eq $current.Kind "taxonomy" }}
+        {{ if eq (lower $current.Data.Term) (lower $tag) }}
+        {{ $isActive = true }}
+        {{ end }}
+        {{ end }}
+        {{ end }}
+        <li class="toc-item{{ if $isActive }} active{{ end }}">
+            <a href="{{ "/tags/" | relURL }}{{ $tag | urlize }}" style="text-decoration:none;color:inherit;display:flex;align-items:center;gap:10px;width:100%;">
+                <span>{{ .title }}</span>
+                <span class="toc-item-badge">{{ $count }}</span>
+            </a>
+        </li>
+        {{ end }}
+        {{ else }}
+        <li class="toc-item">导航数据未配置</li>
+        {{ end }}
+    </ul>
+</aside>

@@ -1,0 +1,2 @@
+<!--让 relref 生成的链接在新页面打开-->
+<a href="{{ relref . (.Get 0) }}" target="_blank" rel="noopener noreferrer">{{ .Inner | markdownify }}</a>

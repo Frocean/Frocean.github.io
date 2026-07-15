@@ -1,0 +1,31 @@
+baseURL = "https://frocean.github.io/"
+locale = "zh-CN"
+title = "Frocean 的个人网站"
+
+buildFuture = true
+
+[params]
+  description = "Frocean 的个人网站，基于 Hugo 重构"
+
+[taxonomies]
+  tag = "tags"
+  category = "categories"
+
+[markup]
+  [markup.tableOfContents]
+    startLevel = 2
+    endLevel = 4
+    ordered = false
+  [markup.goldmark]
+    [markup.goldmark.extensions]
+      [markup.goldmark.extensions.passthrough]
+        enable = false       # 通过 enable 子项控制开关
+    [markup.goldmark.renderer]
+      unsafe = true   # 允许在 Markdown 中直接使用 HTML（谨慎使用）
+      hardWraps = false  # 如果希望回车换行就是 <br>，设为 true，一般保持 false 即可
+    [markup.goldmark.parser]
+      autoHeadingID = true
+      attribute = true    # 允许使用 {.class} 语法
+  [markup.highlight]
+    style = "monokai"     # 代码块配色方案
+    noClasses = false

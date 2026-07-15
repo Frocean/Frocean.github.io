@@ -1,0 +1,50 @@
+{{ define "main" }}
+{{/* 在标签归档页优先使用 data/navigation.yaml 中定义的 title（如果存在），否则回退到 .Title */}}
+{{ $term := .Data.Term }}
+{{ $nav := hugo.Data.navigation.items }}
+{{ $scratch := newScratch }}
+{{ $scratch.Set "title" "" }}
+{{ range $i, $item := $nav }}
+{{ if eq (lower $item.tag) (lower $term) }}
+{{ $scratch.Set "title" $item.title }}
+{{ break }}
+{{ end }}
+{{ end }}
+{{ $displayTitle := cond (ne ($scratch.Get "title") "") ($scratch.Get "title") .Title }}
+
+<div class="content-section-header">
+    <h2 class="content-section-title">{{ $displayTitle }}</h2>
+    <span class="content-section-count">{{ len .Pages }} 篇</span>
+</div>
+
+<div id="pageCardsContainer">
+    {{/* 筛选置顶文章（sticky: true） */}}
+    {{ $stickyPages := where .Pages.ByDate.Reverse "Params.sticky" true }}
+    {{/* 普通文章（排除置顶） */}}
+    {{ $normalPages := where .Pages.ByDate.Reverse "Params.sticky" "!=" true }}
+
+    {{/* 先渲染置顶文章 */}}
+    {{ range $stickyPages }}
+    <article class="page-card sticky-post">
+        <h3 class="page-card-title">
+            <a href="{{ .RelPermalink }}">
+                📌 {{ .Title }}
+            </a>
+        </h3>
+        <div class="page-card-meta"><span>📅 {{ .Date.Format "2006-01-02" }}</span></div>
+        <p class="page-card-excerpt">{{ with .Params.excerpt }}{{ . }}{{ else }}{{ .Summary }}{{ end }}</p>
+        <div class="page-card-tags">{{ with .Params.tags }}{{ range . }}<span class="page-card-tag">#{{ . }}</span>{{ end }}{{ end }}</div>
+    </article>
+    {{ end }}
+
+    {{/* 再渲染普通文章 */}}
+    {{ range $normalPages }}
+    <article class="page-card">
+        <h3 class="page-card-title"><a href="{{ .RelPermalink }}">{{ .Title }}</a></h3>
+        <div class="page-card-meta"><span>📅 {{ .Date.Format "2006-01-02" }}</span></div>
+        <p class="page-card-excerpt">{{ with .Params.excerpt }}{{ . }}{{ else }}{{ .Summary }}{{ end }}</p>
+        <div class="page-card-tags">{{ with .Params.tags }}{{ range . }}<span class="page-card-tag">#{{ . }}</span>{{ end }}{{ end }}</div>
+    </article>
+    {{ end }}
+</div>
+{{ end }}

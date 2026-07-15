@@ -1,0 +1,319 @@
+:root {
+    /* ========== 配色方案========== */
+    --bg-body: #f0f2f5;
+    --bg-header-start: #2c3e50;
+    --bg-header-mid: #3a5f8a;
+    --bg-header-end: #4a7cb5;
+    --bg-card: rgba(255, 255, 255, 0.8);
+    --bg-sidebar: rgba(255, 255, 255, 0.8);
+    --bg-content-card: rgba(255, 255, 255, 0.8);
+    --text-primary: #2c3e50;
+    --text-secondary: #5a6c7d;
+    --text-muted: #8b9aab;
+    --text-header: #ffffff;
+    --accent: #4a8fe7;
+    --accent-light: #e8f2fd;
+    --accent-hover: #3a7bd5;
+    --border: #e8ecf1;
+    --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.06), 0 1px 2px rgba(0, 0, 0, 0.04);
+    --shadow-md: 0 4px 16px rgba(0, 0, 0, 0.08), 0 2px 6px rgba(0, 0, 0, 0.04);
+    --shadow-lg: 0 8px 30px rgba(0, 0, 0, 0.10), 0 3px 10px rgba(0, 0, 0, 0.05);
+    --radius-sm: 10px;
+    --radius-md: 14px;
+    --radius-lg: 18px;
+    --radius-xl: 22px;
+    --sidebar-width: 250px;
+    --right-width: 250px;
+    --header-height: 160px;
+    --font-stack: 'PingFang SC', 'Microsoft YaHei', 'Hiragino Sans GB', 'Helvetica Neue', Arial, sans-serif;
+    --transition: 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+html {
+    scroll-behavior: smooth;
+}
+
+body {
+    font-family: var(--font-stack);
+    background-color: #f0f2f5;
+    background-image: url('/images/65442439.jpg');
+    background-size: cover;
+    background-position: center 75%;
+    background-attachment: fixed;
+    background-repeat: no-repeat;
+    color: var(--text-primary);
+    line-height: 1.6;
+    min-height: 100vh;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+
+/* header */
+.site-header {
+    position: relative;
+    width: 100%;
+    height: var(--header-height);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    overflow: hidden;
+    box-shadow: 0;
+    z-index: 10;
+}
+
+.header-content { position: relative; z-index:2; text-align:center }
+.site-title { font-size:2.6rem; font-weight:700; color:var(--text-header); margin-bottom:6px }
+
+.main-wrapper { max-width:1300px; margin:0 auto; padding:24px 10px 40px; display:grid; grid-template-columns: var(--sidebar-width) 1fr var(--right-width); gap:22px; align-items:start }
+
+.sidebar-card { position:sticky; top:24px; background:var(--bg-sidebar); border-radius:var(--radius-lg); box-shadow:var(--shadow-lg); display:flex; flex-direction:column; max-height:calc(100vh - 48px); overflow:hidden; border:1px solid var(--border) }
+.sidebar-avatar-section { padding:28px 20px 16px; text-align:center; flex-shrink:0; border-bottom:1px solid var(--border); background:linear-gradient(180deg,#fafbfc 0%,#ffffff 100%) }
+.avatar-wrapper { display:inline-block; width:80px; height:80px; border-radius:50%; overflow:hidden; box-shadow:var(--shadow-md); border:3px solid #fff; cursor:pointer; background:#e8ecf1 }
+.avatar-wrapper img { width:100%; height:100%; object-fit:cover }
+.sidebar-avatar-name { margin-top:10px; font-size:0.95rem; font-weight:600 }
+.sidebar-avatar-detail { font-size:0.75rem; color:var(--text-muted); margin-top:2px }
+.sidebar-social-links { margin-top:12px; display:flex; justify-content:center; gap:14px }
+.sidebar-social-links a { width:34px; height:34px; display:inline-flex; align-items:center; justify-content:center; border-radius:50%; background:#f0f2f5; color:#5a6c7d; text-decoration:none }
+
+.sidebar-toc-title { padding:14px 20px 8px; font-size:0.78rem; font-weight:700; text-transform:uppercase; color:var(--text-muted) }
+.sidebar-toc-list { flex:1; overflow-y:auto; padding:4px 12px 16px; list-style:none }
+.toc-item { display:flex; align-items:center; gap:10px; padding:11px 14px; margin:2px 0; border-radius:var(--radius-sm); cursor:pointer; font-size:0.9rem; font-weight:500; color:var(--text-secondary) }
+.toc-item:hover { background:var(--accent-light); color:var(--accent) }
+.toc-item-badge { margin-left:auto; background:#e8ecf1; color:var(--text-muted); font-size:0.7rem; padding:2px 8px; border-radius:20px }
+
+.content-area {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    min-width: 0;
+    overflow: hidden;
+}
+.content-section-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 8px 4px 4px;
+    gap: 12px;
+}
+.content-section-title {
+    font-size: 1.35rem;
+    font-weight: 700;
+    color: #ffffff;
+    flex: 1; /* 占据剩余空间 */
+    overflow: hidden; /* 隐藏溢出内容 */
+    white-space: nowrap; /* 强制一行显示 */
+    text-overflow: ellipsis; /* 超出显示省略号 */
+    margin: 0; /* 清除默认外边距 */
+}
+.content-section-title a,
+.content-section-title span {
+    color: #ffffff;
+    text-decoration: none;
+}
+.content-section-count { font-size:0.85rem; color:var(--text-muted); background:#e8ecf1; padding:4px 12px; border-radius:20px; }
+
+.page-card { background:var(--bg-content-card); border-radius:var(--radius-md); padding:20px 22px; box-shadow:0 2px 8px rgba(0,0,0,0.05); border:1px solid var(--border); transition:var(--transition); cursor:pointer; display:flex; flex-direction:column; gap:8px }
+.page-card:hover { transform:translateY(-2px) }
+.page-card-title { font-size:1.1rem; font-weight:650 }
+.page-card-title a {text-decoration:none; color:inherit; }
+.page-card-title a:hover {color: var(--accent); }
+.page-card-meta { font-size:0.82rem; color:var(--text-muted) }
+.page-card-excerpt { font-size:0.9rem; color:var(--text-secondary) }
+.page-card-tags { display:flex; gap:8px; margin-top:2px }
+.page-card-tag { font-size:0.73rem; padding:4px 10px; border-radius:14px; background:#f5f7fa; color:var(--text-muted) }
+
+.right-sidebar { position:sticky; top:24px; border-radius:var(--radius-lg); display:flex; align-items:center; justify-content:center; color:var(--text-muted); font-size:0.85rem; border:2px dashed rgba(200,200,200,0.5); background:rgba(255,255,255,0.8); padding:30px 16px }
+
+.site-footer { background-color:rgba(255,255,255,0.95); border-top:1px solid rgba(0,0,0,0.05); text-align:center; padding:6px; font-size:0.8rem; color:var(--text-muted); margin-top:10px }
+
+@media (max-width:1024px) {
+  .main-wrapper { grid-template-columns:240px 1fr; gap:16px }
+  .right-sidebar { display:none }
+}
+
+@media (max-width:768px) {
+  .main-wrapper { grid-template-columns:1fr }
+  .sidebar-card { position:relative; max-height:none }
+}
+
+@keyframes fadeInUp { from { opacity:0; transform:translateY(14px) } to { opacity:1; transform:translateY(0) } }
+.page-card { animation:fadeInUp 0.4s ease forwards }
+
+/* ==========right-sidebar========== */
+.sidebar-toc-wrapper {
+    padding: 16px;
+    width: 100%;
+    height: 100%;
+    overflow-y: auto;
+}
+
+.sidebar-toc-content nav ul {
+    list-style: none;
+    padding-left: 0; /* 关键：去除父级 ul 的缩进，让 a 可点击区域保持满宽 */
+    margin: 0;
+}
+
+.sidebar-toc-content nav ul li {
+    margin: 4px 0;
+    line-height: 1.5;
+}
+
+/* 基础链接样式（第一层标题） */
+.sidebar-toc-content nav ul li a {
+    display: block;
+    padding: 4px 8px; /* 第一层保留基础左侧内边距 */
+    font-size: 0.92rem;
+    color: var(--text-secondary);
+    text-decoration: none;
+    border-radius: 6px;
+    transition: background 0.2s, color 0.2s;
+}
+
+/* 第二层标题（H3）增加左侧内边距，制造视觉缩进 */
+.sidebar-toc-content nav ul ul li a {
+    padding-left: 18px; /* 基础 8px + 20px 缩进，可按喜好调整 */
+    font-size: 0.85rem; /* 稍小一点，层级分明 */
+}
+
+/* 第三层标题（H4）更多缩进 */
+.sidebar-toc-content nav ul ul ul li a {
+    padding-left: 28px; /* 28px + 20px 进一步缩进 */
+    font-size: 0.82rem;
+}
+
+/* 如果有更深层级，继续按此规则累加 */
+
+.sidebar-toc-content nav ul li a:hover {
+    background: var(--accent-light);
+    color: var(--accent);
+}
+
+/* ========== 文章正文排版优化 ========== */
+.page-content {
+    padding-left: 1vw; /* 视口宽度的5%，随屏幕缩放 */
+    padding-right: 1vw;
+    line-height: 1.8; /* 增加行高，阅读更舒适 */
+    color: var(--text-primary);
+    word-break: break-word;
+}
+
+/* 段落间距：保证空行视觉上有合适距离 */
+.page-content p {
+    margin: 0 0 1.2em 0;
+}
+
+/* 标题在正文中的上外边距，避免太贴边 */
+.page-content h2,
+.page-content h3,
+.page-content h4 {
+    margin-top: 2em;
+    margin-bottom: 0.8em;
+    font-weight: 700;
+}
+
+.page-content h2 {
+    font-size: 1.5rem;
+    border-bottom: 2px solid var(--border);
+    padding-bottom: 0.3em;
+}
+
+.page-content h3 {
+    font-size: 1.3rem;
+}
+
+.page-content h4 {
+    font-size: 1.15rem;
+}
+
+/* 列表统一缩进，让项目符号与正文左边界对齐（不超出标题） */
+.page-content ul,
+.page-content ol {
+    padding-left: 2em; /* 关键：缩进列表整体 */
+    margin: 0.8em 0;
+}
+
+.page-content li {
+    margin-bottom: 0.3em;
+    line-height: 1.6;
+}
+
+/* 嵌套列表：子级再缩进一点 */
+.page-content ul ul,
+.page-content ol ol,
+.page-content ul ol,
+.page-content ol ul {
+    padding-left: 1.5em;
+    margin: 0.3em 0;
+}
+
+/* 代码块与内联代码 */
+.page-content code {
+    background: #f4f6f8;
+    padding: 0.2em 0.4em;
+    border-radius: 4px;
+    font-size: 0.9em;
+    color: #c7254e;
+    font-family: Consolas, Menlo, Monaco, "Courier New", monospace;
+}
+
+.page-content pre {
+    background: #2d2d2d;
+    color: #f8f8f2;
+    padding: 16px;
+    border-radius: 8px;
+    overflow-x: auto;
+    margin: 1.2em 0;
+}
+
+.page-content pre code {
+    background: none;
+    padding: 0;
+    color: inherit;
+    font-size: 0.8em;
+    font-family: Consolas, Menlo, Monaco, "Courier New", monospace;
+    white-space: pre-wrap; /* 保留格式但允许换行 */
+    word-break: break-all; /* 长行强制断开 */
+    overflow-wrap: break-word; /* 备用换行 */
+}
+
+/* 引用块 */
+.page-content blockquote {
+    border-left: 4px solid var(--accent);
+    padding: 0.8em 1.2em;
+    margin: 1.2em 0;
+    background: var(--accent-light);
+    color: var(--text-secondary);
+}
+
+/* 分割线 */
+.page-content hr {
+    border: none;
+    border-top: 1px solid var(--border);
+    margin: 2em 0;
+}
+
+/* 表格 */
+.page-content table {
+    border-collapse: collapse;
+    width: 100%;
+    margin: 1em 0;
+}
+
+.page-content th,
+.page-content td {
+    border: 1px solid var(--border);
+    padding: 8px 12px;
+    text-align: left;
+}
+
+.page-content th {
+    background: #f8f9fa;
+    font-weight: 600;
+}

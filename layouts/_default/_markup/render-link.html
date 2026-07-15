@@ -1,0 +1,8 @@
+<!--链接跳转外部网站设置为单开页面跳转-->
+<a href="{{ .Destination | safeURL }}"
+   {{ with .Title }} title="{{ . }}" {{ end }}
+   {{ if strings.HasPrefix .Destination "http" }}
+   target="_blank" rel="noopener noreferrer"
+   {{ end }}>
+    {{ .Text | safeHTML }}
+</a>

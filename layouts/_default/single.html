@@ -1,0 +1,48 @@
+{{ define "main" }}
+  {{/* 找到文章所属的导航类别（优先匹配 data/navigation.yaml 中定义的 tags） */}}
+  {{ $page := . }}
+  {{ $nav := hugo.Data.navigation.items }}
+  {{ $scratch := newScratch }}
+  {{ $scratch.Set "found" false }}
+  {{ range $i, $item := $nav }}
+    {{ if $page.Params.tags }}
+      {{ range $j, $t := $page.Params.tags }}
+        {{ if eq (lower $t) (lower $item.tag) }}
+          {{ $scratch.Set "selected" $item }}
+          {{ $scratch.Set "matchedTag" $t }}
+          {{ $scratch.Set "found" true }}
+        {{ end }}
+      {{ end }}
+    {{ end }}
+    {{ if $scratch.Get "found" }}{{ break }}{{ end }}
+  {{ end }}
+  {{ $selected := $scratch.Get "selected" }}
+  {{ $matchedTag := $scratch.Get "matchedTag" }}
+  {{ if not $matchedTag }}
+    {{ with index $page.Params.tags 0 }}
+      {{ $matchedTag = . }}
+    {{ end }}
+  {{ end }}
+
+  <div class="content-section-header">
+    <h2 class="content-section-title">
+      {{ if $matchedTag }}
+        <a href="/tags/{{ $matchedTag | urlize }}" style="color:inherit;text-decoration:none;">
+          <span class="toc-item-icon">
+            {{ with $selected }}{{ .icon }}{{ end }}
+          </span>
+          <span>{{ with $selected }}{{ .title }}{{ else }}{{ $matchedTag }}{{ end }}</span>
+        </a>
+        <span style="margin:0 8px; color:var(--text-muted)">›</span>
+      {{ end }}
+      <span>{{ .Title }}</span>
+    </h2>
+    <span class="content-section-count">{{ .Date.Format "2006-01-02" }}</span>
+  </div>
+
+  <article class="page-card">
+    <h1 class="page-card-title">{{ .Title }}</h1>
+    <div class="page-card-meta"><span>📅 {{ .Date.Format "2006-01-02" }}</span></div>
+    <div class="page-content">{{ .Content }}</div>
+  </article>
+{{ end }}

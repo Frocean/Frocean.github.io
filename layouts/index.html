@@ -1,0 +1,17 @@
+{{ define "main" }}
+  <div class="content-section-header">
+    <h2 class="content-section-title">最近文章</h2>
+    <span class="content-section-count">{{ len .Site.RegularPages }} 篇</span>
+  </div>
+
+  <div id="pageCardsContainer">
+    {{ range .Site.RegularPages.ByDate.Reverse }}
+      <article class="page-card">
+        <h3 class="page-card-title"><a href="{{ .RelPermalink }}">{{ .Title }}</a></h3>
+        <div class="page-card-meta"><span>📅 {{ .Date.Format "2006-01-02" }}</span></div>
+        <p class="page-card-excerpt">{{ with .Params.excerpt }}{{ . }}{{ else }}{{ .Summary }}{{ end }}</p>
+        <div class="page-card-tags">{{ with .Params.tags }}{{ range . }}<span class="page-card-tag">#{{ . }}</span>{{ end }}{{ end }}</div>
+      </article>
+    {{ end }}
+  </div>
+{{ end }}
