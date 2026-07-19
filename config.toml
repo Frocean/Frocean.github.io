@@ -19,8 +19,9 @@ buildFuture = true
 
   [markup.goldmark]
     [markup.goldmark.extensions]
-      # 禁用通过 ~ 单字符触发的删除线解析，避免在行内公式中将 ~ 误识别为删除符号
-      strikethrough = false
+      # 启用删除线扩展（允许使用 ~~text~~ 进行删除线）。
+      # 我们在渲染前对数学区块内的 ~ 做特殊处理，避免冲突。
+      strikethrough = true
       [markup.goldmark.extensions.passthrough]
         enable = false       # 通过 enable 子项控制开关
     [markup.goldmark.renderer]

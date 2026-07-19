@@ -3,6 +3,68 @@
 <script defer src="/katex/contrib/auto-render.min.js"></script>
 <script>
     document.addEventListener("DOMContentLoaded", function () {
+        // Preprocess page HTML to escape unescaped percent signs (%) inside LaTeX math
+        // so that KaTeX receives "\%" and renders a percent symbol instead of treating
+        // it as a TeX comment. This scans math blocks and inserts a backslash before
+        // any percent sign that is not already escaped.
+        function escapePercentsInMath(html) {
+            // regex to find math blocks: $$..$$, $..$, \(...\), \[..\]
+            return html.replace(/(\$\$[\s\S]*?\$\$|\$[^$][\s\S]*?\$|\\\\\([\s\S]*?\\\\\)|\\\\\[[\s\S]*?\\\\\])/g, function(m) {
+                // Process each math block character-by-character to:
+                //  - escape unescaped percent signs (%) -> \%
+                //  - recover common lost-escapes such as ";" intended as "\;"
+                // This preserves already-escaped sequences by copying a backslash
+                // and the following character unchanged.
+                var out = '';
+                for (var i = 0; i < m.length; i++) {
+                    var ch = m[i];
+                    // If we see a backslash, preserve it and the next char as-is
+                    if (ch === '\\') {
+                        if (i + 1 < m.length) {
+                            out += m[i] + m[i+1];
+                            i++;
+                        } else {
+                            out += ch;
+                        }
+                        continue;
+                    }
+                    // Escape unescaped percent signs: % -> \%
+                    if (ch === '%') {
+                        out += "\\%";
+                        continue;
+                    }
+                    // Convert unescaped tilde used as a TeX spacer inside math
+                    // e.g., a~mod -> a\,mod  (replace ~ with \, thinspace)
+                    if (ch === '~') {
+                        out += "\\,"; // produce \, for KaTeX
+                        continue;
+                    }
+                    // Convert unescaped semicolon used as a TeX spacer:
+                    // e.g., a;mod -> a\;mod (common when source "\\;" lost backslash)
+                    if (ch === ';') {
+                        var prev = (i > 0) ? m[i-1] : ' ';
+                        var next = (i + 1 < m.length) ? m[i+1] : ' ';
+                        // Only convert when semicolon is not whitespace, not a newline,
+                        // and not already escaped.
+                        if (prev !== ' ' && next !== ' ' && prev !== '\n' && next !== '\n' && prev !== '\\') {
+                            out += "\\;";
+                            continue;
+                        }
+                    }
+                    out += ch;
+                }
+                return out;
+            });
+        }
+
+        try {
+            // apply escape on the document body HTML before KaTeX rendering
+            document.body.innerHTML = escapePercentsInMath(document.body.innerHTML);
+        } catch (e) {
+            // If something goes wrong, do not block rendering
+            console.warn('math percent-escape failed', e);
+        }
+
         renderMathInElement(document.body, {
             delimiters: [
                 { left: "$$", right: "$$", display: true },
