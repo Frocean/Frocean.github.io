@@ -12,6 +12,14 @@ buildFuture = true
   category = "categories"
 
 [markup]
+  [markup.goldmark]
+    [markup.goldmark.extensions]
+      # 禁用通过 ~ 单字符触发的删除线解析，避免在行内公式中将 ~ 误识别为删除符号
+      strikethrough = false
+    [markup.goldmark.parser]
+      autoHeadingID = true
+
+[markup]
   [markup.tableOfContents]
     startLevel = 2
     endLevel = 4
