@@ -143,6 +143,22 @@ body {
 
 .site-footer { background-color:rgba(255,255,255,0.95); border-top:1px solid rgba(0,0,0,0.05); text-align:center; padding:6px; font-size:0.8rem; color:var(--text-muted); margin-top:10px }
 
+/* 图片自适应限制：保证文章内或卡片内的图片不会超出容器宽度，过大图片按比例缩放 */
+.page-content img,
+.page-card img,
+.content-area img {
+    max-width: 100%; /* 不超过父容器宽度 */
+    height: auto;    /* 保持纵横比 */
+    display: block;
+    margin: 12px auto; /* 居中并与文本保持间距 */
+    object-fit: contain;
+}
+
+/* 对于极高的图片限制最大高度，防止占满视窗 */
+.page-content img {
+    max-height: 75vh;
+}
+
 @media (max-width:1024px) {
   .main-wrapper { grid-template-columns:240px 1fr; gap:16px }
   .right-sidebar { display:none }
