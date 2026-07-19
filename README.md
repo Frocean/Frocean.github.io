@@ -27,11 +27,11 @@
 基于标签的自动归类（Taxonomies）
 - 本站使用 Hugo 的 tags taxonomy 管理文章归类。所有文章均放在 content/posts/，并在 front matter 中通过 tags 字段指定标签，例如：
 
-  ---
+  ```
   title: "深入理解 CSS Grid 布局"
   date: 2026-07-14
   tags: ["tech", "css", "前端"]
-  ---
+  ```
 
 - 通过 data/navigation.yaml 配置哪些标签显示在侧边导航，并在 layouts/partials/sidebar.html 中读取，渲染左侧导航并高亮当前标签页或当前文章的标签。
 

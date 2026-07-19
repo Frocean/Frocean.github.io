@@ -6,7 +6,7 @@
     --bg-header-end: #4a7cb5;
     --bg-card: rgba(255, 255, 255, 0.8);
     --bg-sidebar: rgba(255, 255, 255, 0.8);
-    --bg-content-card: rgba(255, 255, 255, 0.8);
+    --bg-content-card: rgba(255, 255, 255, 0.9);
     --text-primary: #2c3e50;
     --text-secondary: #5a6c7d;
     --text-muted: #8b9aab;
@@ -125,7 +125,17 @@ body {
 .page-card-title a {text-decoration:none; color:inherit; }
 .page-card-title a:hover {color: var(--accent); }
 .page-card-meta { font-size:0.82rem; color:var(--text-muted) }
-.page-card-excerpt { font-size:0.9rem; color:var(--text-secondary) }
+.page-card-excerpt {
+    font-size: 0.9rem;
+    color: var(--text-secondary);
+    line-height: 1.55;
+    /* 多行省略：限制为两行，超出显示省略号（Chrome / Safari / Edge 支持） */
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 2; /* 修改此值可改变显示行数 */
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
 .page-card-tags { display:flex; gap:8px; margin-top:2px }
 .page-card-tag { font-size:0.73rem; padding:4px 10px; border-radius:14px; background:#f5f7fa; color:var(--text-muted) }
 
