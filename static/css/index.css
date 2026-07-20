@@ -151,15 +151,37 @@ body {
 .site-footer { background-color:rgba(255,255,255,0.95); border-top:1px solid rgba(0,0,0,0.05); text-align:center; padding:6px; font-size:0.8rem; color:var(--text-muted); margin-top:10px }
 
 /* 右侧文章目录（Table of Contents）滚动与高亮 */
-.sidebar-toc-wrapper { display:flex; flex-direction:column; width:100%; }
-.sidebar-toc-content { overflow-y: auto; padding-right:8px; }
+.sidebar-toc-wrapper {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  /* 保留滚动条宽度的变量（可根据需要调整） */
+  --toc-scrollbar-width: 12px;
+  /* 将滚动行为放到 wrapper 上，使滚动条靠近侧栏最右侧 */
+  overflow-y: auto;
+  padding-right: var(--toc-scrollbar-width);
+  box-sizing: content-box;
+  /* Firefox 滚动条样式： track 使用与容器相同背景 */
+  scrollbar-width: thin;
+  scrollbar-color: var(--accent) rgba(255,255,255,0.8);
+}
+.sidebar-toc-content {
+  /* 内容不再承载滚动条，避免占用文本显示区域 */
+  padding-right: 0;
+}
 .sidebar-toc-content a { display:block; padding:6px 8px; color:var(--text-secondary); text-decoration:none; border-radius:8px; }
 .sidebar-toc-content a:hover { background:var(--accent-light); color:var(--accent); }
 .sidebar-toc-content a.active { background: linear-gradient(90deg, var(--accent) 0%, var(--accent-hover) 100%); color: #fff; font-weight:600; }
 
+/* WebKit 浏览器滚动条样式：把轨道颜色设置为与容器背景一致 */
+.sidebar-toc-wrapper::-webkit-scrollbar { width: var(--toc-scrollbar-width); }
+.sidebar-toc-wrapper::-webkit-scrollbar-track { background: rgba(255,255,255,0.8); }
+.sidebar-toc-wrapper::-webkit-scrollbar-thumb { background: linear-gradient(180deg, var(--accent) 0%, var(--accent-hover) 100%); border-radius: 8px; }
+.sidebar-toc-wrapper::-webkit-scrollbar-thumb:hover { filter: brightness(0.95); }
+
 @media (min-width: 1025px) {
-  /* 计算侧栏目录最大高度，保证不超过可见窗口高度 */
-  .sidebar-toc-content { max-height: calc(100vh - var(--header-height) - 120px); }
+  /* 计算侧栏目录最大高度，保证不超过可见窗口高度，把 max-height 放在 wrapper 上 */
+  .sidebar-toc-wrapper { max-height: calc(100vh - var(--header-height) - 120px); }
 }
 
 /* 图片自适应限制：保证文章内或卡片内的图片不会超出容器宽度，过大图片按比例缩放 */
