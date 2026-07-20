@@ -37,7 +37,6 @@
     document.addEventListener('DOMContentLoaded', function() {
         var tocContainer = document.querySelector('.sidebar-toc-content');
         if (!tocContainer) return;
-        // map id -> anchor in TOC
         var links = tocContainer.querySelectorAll('a');
         var idToLink = {};
         links.forEach(function(a){
@@ -50,24 +49,54 @@
         var headings = Array.prototype.slice.call(document.querySelectorAll('.page-content h1, .page-content h2, .page-content h3, .page-content h4'));
         if (headings.length === 0) return;
 
-        var observer = new IntersectionObserver(function(entries){
-            // find entries currently intersecting and pick the one with largest intersectionRatio
-            var visible = entries.filter(function(e){ return e.isIntersecting; });
-            if (visible.length > 0) {
-                visible.sort(function(a,b){ return b.intersectionRatio - a.intersectionRatio; });
-                var id = visible[0].target.id;
-                if (id && idToLink[id]) {
-                    links.forEach(function(l){ l.classList.remove('active'); });
-                    idToLink[id].classList.add('active');
-                }
-            } else {
-                // no intersecting entries: optionally clear active
-                links.forEach(function(l){ l.classList.remove('active'); });
-            }
-        }, { root: null, rootMargin: '0px 0px -60% 0px', threshold: [0,0.1,0.25,0.5,0.75,1] });
+        // prepare array of {id, el}
+        var hdrs = headings.filter(function(h){ return h.id; }).map(function(h){ return { id: h.id, el: h }; });
+        if (hdrs.length === 0) return;
 
-        headings.forEach(function(h){
-            if (h.id) observer.observe(h);
+        var ticking = false;
+
+        function updateActiveByCenter() {
+            ticking = false;
+            var viewportCenter = window.innerHeight / 2;
+            var activeId = null;
+
+            for (var i = 0; i < hdrs.length; i++) {
+                var rect = hdrs[i].el.getBoundingClientRect();
+                // if heading top is <= center, consider it candidate
+                if (rect.top <= viewportCenter) {
+                    activeId = hdrs[i].id;
+                } else {
+                    // once a heading is below center, stop scanning
+                    break;
+                }
+            }
+
+            // If center is above first heading, no active
+            // If we've scrolled past the last heading, last becomes active
+            if (!activeId) {
+                // optionally clear all
+                links.forEach(function(l){ l.classList.remove('active'); });
+                return;
+            }
+
+            // apply active class
+            links.forEach(function(l){ l.classList.remove('active'); });
+            if (idToLink[activeId]) idToLink[activeId].classList.add('active');
+        }
+
+        function onScroll() {
+            if (!ticking) {
+                ticking = true;
+                window.requestAnimationFrame(updateActiveByCenter);
+            }
+        }
+
+        // initialize
+        updateActiveByCenter();
+        window.addEventListener('scroll', onScroll, { passive: true });
+        window.addEventListener('resize', function(){
+            // recompute on resize
+            updateActiveByCenter();
         });
     });
     </script>
