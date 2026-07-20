@@ -33,5 +33,43 @@
         </aside>
     </div>
     {{ partial "footer.html" . }}
+    <script>
+    document.addEventListener('DOMContentLoaded', function() {
+        var tocContainer = document.querySelector('.sidebar-toc-content');
+        if (!tocContainer) return;
+        // map id -> anchor in TOC
+        var links = tocContainer.querySelectorAll('a');
+        var idToLink = {};
+        links.forEach(function(a){
+            var href = a.getAttribute('href') || '';
+            if (href.indexOf('#') === 0) {
+                idToLink[href.substring(1)] = a;
+            }
+        });
+
+        var headings = Array.prototype.slice.call(document.querySelectorAll('.page-content h1, .page-content h2, .page-content h3, .page-content h4'));
+        if (headings.length === 0) return;
+
+        var observer = new IntersectionObserver(function(entries){
+            // find entries currently intersecting and pick the one with largest intersectionRatio
+            var visible = entries.filter(function(e){ return e.isIntersecting; });
+            if (visible.length > 0) {
+                visible.sort(function(a,b){ return b.intersectionRatio - a.intersectionRatio; });
+                var id = visible[0].target.id;
+                if (id && idToLink[id]) {
+                    links.forEach(function(l){ l.classList.remove('active'); });
+                    idToLink[id].classList.add('active');
+                }
+            } else {
+                // no intersecting entries: optionally clear active
+                links.forEach(function(l){ l.classList.remove('active'); });
+            }
+        }, { root: null, rootMargin: '0px 0px -60% 0px', threshold: [0,0.1,0.25,0.5,0.75,1] });
+
+        headings.forEach(function(h){
+            if (h.id) observer.observe(h);
+        });
+    });
+    </script>
 </body>
 </html>
