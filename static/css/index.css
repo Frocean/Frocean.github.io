@@ -368,9 +368,6 @@ body {
     color: var(--text-secondary);
 }
 
-/* lead-indent: visual indent for paragraphs that intentionally start with two spaces */
-.page-content .lead-indent { text-indent: 1.2em; }
-
 /* 分割线 */
 .page-content hr {
     border: none;

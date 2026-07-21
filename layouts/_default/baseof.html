@@ -98,50 +98,6 @@
             // recompute on resize
             updateActiveByCenter();
         });
-        // ---- handle paragraphs that start with two spaces ----
-        // Some authors insert two literal spaces at paragraph start to indicate indent.
-        // HTML collapses spaces, so detect text nodes that begin with two spaces or two NBSPs
-        // and apply a CSS class to render a visual indent while removing the raw spaces.
-        (function applyLeadingSpaceIndent(){
-            try {
-                var paragraphs = document.querySelectorAll('.page-content p, .page-content li');
-                paragraphs.forEach(function(el){
-                    if (!el.firstChild) return;
-                    var node = el.firstChild;
-                    // only operate on text nodes (nodeType === 3)
-                    if (node.nodeType !== 3) return;
-                    var text = node.nodeValue || '';
-                    // count leading spaces and NBSPs
-                    var m = text.match(/^([ \u00A0\t]+)/);
-                    if (!m) return;
-                    var leading = m[1];
-                    // convert tabs to spaces for counting
-                    var count = 0;
-                    for (var i = 0; i < leading.length; i++) {
-                        var ch = leading[i];
-                        if (ch === '\t') count += 4; else count += 1;
-                    }
-                    if (count >= 2) {
-                        // remove exactly the first N characters that correspond to two spaces
-                        // iterate through leading chars until consumed >=2
-                        var removed = 0;
-                        var cutIndex = 0;
-                        for (var j = 0; j < leading.length; j++) {
-                            var ch2 = leading[j];
-                            removed += (ch2 === '\t') ? 4 : 1;
-                            cutIndex = j + 1;
-                            if (removed >= 2) break;
-                        }
-                        // update the text node to remove the consumed leading characters
-                        node.nodeValue = text.substring(cutIndex);
-                        // add class to element to render indent
-                        el.classList.add('lead-indent');
-                    }
-                });
-            } catch (e) {
-                console.warn('applyLeadingSpaceIndent failed', e);
-            }
-        })();
     });
     </script>
 </body>
