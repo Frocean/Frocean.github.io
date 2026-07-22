@@ -10,6 +10,7 @@
 - layouts/                 — Hugo 模板（base、index、single）
 - static/css/index.css     — 样式文件（会被复制到站点根的 /css/）
 - static/images/           — 静态图片资源（站点引用路径为 /images/...）
+- static/favicon/          — 自定义 favicon / 浏览器图标（放在 static 下会被复制到站点根或子目录）
 - .github/workflows/       — GitHub Actions 工作流（自动构建并部署到 GitHub Pages）
 
 快速开始
