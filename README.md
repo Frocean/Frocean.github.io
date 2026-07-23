@@ -40,7 +40,7 @@ GitHub Actions 与部署
 已添加 .github/workflows/deploy.yml，用于在 push 到 main 时构建并部署到 GitHub Pages。请确认仓库设置中允许 Actions 使用写入 Pages 的权限（Settings → Actions → General → Workflow permissions 设置为 Read and write）。如需使用个人访问令牌 (PAT)，请在仓库 Secrets 中添加并告知，我可以帮你切换工作流配置。
 
 清理说明
-- 已移除构建产物 public/（若你本地仍有该目录，可以删除以避免将生成文件提交到源码仓库）。
+- 已移除构建产物 public/（若本地仍有该目录，可以删除以避免将生成文件提交到源码仓库）。
 - 已将 IDE 工作区目录 .vs 加入 .gitignore，避免将本地开发环境文件纳入版本控制。
 
 项目细节与功能说明
@@ -75,12 +75,12 @@ GitHub Actions 与部署
 
 关于行内数学公式与波浪号 (~ ) 问题
 ---------------------------------
-- 如果你在文章中使用行内数学表达式（例如 $a~mod~b$），请注意 Markdown 解析器可能会将波浪号解释为删除线的一部分，导致公式内容被破坏。
-- 我们已在 config.toml 中禁用 Goldmark 的 strikethrough 扩展（strikethrough = false），这会避免单个波浪号被当作删除线解析，从而让 KaTeX 能正确识别并渲染 $...$ 中的 ~ 为不可断开空格。
-- 若仍遇到问题，你可以在数学公式中改用 TeX 的空格命令，例如使用 `\ `（反斜杠加空格）或 `\;`、`\,` 等，或者确保在页面渲染时 KaTeX 的 auto-render 脚本已加载。
+- 如果在文章中使用行内数学表达式（例如 $a~mod~b$），请注意 Markdown 解析器可能会将波浪号解释为删除线的一部分，导致公式内容被破坏。
+- 目前已在 config.toml 中禁用 Goldmark 的 strikethrough 扩展（strikethrough = false），这会避免单个波浪号被当作删除线解析，从而让 KaTeX 能正确识别并渲染 $...$ 中的 ~ 为不可断开空格。
+- 若仍遇到问题，可以在数学公式中改用 TeX 的空格命令，例如使用 `\ `（反斜杠加空格）或 `\;`、`\,` 等，或者确保在页面渲染时 KaTeX 的 auto-render 脚本已加载。
 
 添加新文章或导航项的建议流程
-1. 新文章：在 content/posts/ 新建 md 文件，填写 front matter（title、date、tags、excerpt 等），确保 tags 中含有你希望归类的 tag。
+1. 新文章：在 content/posts/ 新建 md 文件，填写 front matter（title、date、tags、excerpt 等），确保 tags 中含有所希望归类的 tag。
 2. 若该 tag 需要出现在侧栏：在 data/navigation.yaml 中添加对应项（tag 与文章 tags 一致），并设定 title（显示名称）。
 3. 运行本地预览： hugo server -D -s .，检查侧栏与归档页是否如预期显示。
 
