@@ -30,6 +30,37 @@
     --transition: 0.25s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
+/* 链接预览浮窗（link preview） */
+.link-preview-popup {
+    position: absolute;
+    z-index: 10000;
+    width: 450px;
+    max-height: 350px;
+    overflow-y: auto;
+    background: rgba(255, 255, 255, 0.96);
+    backdrop-filter: blur(6px);
+    border: 1px solid rgba(0,0,0,0.06);
+    border-radius: 12px;
+    box-shadow: 0 12px 36px rgba(0,0,0,0.18);
+    padding: 16px;
+    font-size: 0.9rem;
+    line-height: 1.6;
+    color: var(--text-primary);
+    pointer-events: auto;
+    transition: opacity 0.15s ease;
+}
+.link-preview-popup.loading::after {
+    content: "加载中…";
+    color: var(--text-muted);
+    display: block;
+    text-align: center;
+    padding: 12px 0;
+}
+@media (max-width: 768px) {
+    .link-preview-popup { width: 90vw; left: 5vw !important; right: 5vw !important; }
+}
+
+
 * {
     margin: 0;
     padding: 0;

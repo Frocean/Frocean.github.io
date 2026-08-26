@@ -1,8 +1,10 @@
-<!--链接跳转外部网站设置为单开页面跳转-->
+<!--链接跳转外部网站设置为单开页面跳转; 站内链接添加 class="internal-link" 以支持悬停预览-->
 <a href="{{ .Destination | safeURL }}"
    {{ with .Title }} title="{{ . }}" {{ end }}
    {{ if strings.HasPrefix .Destination "http" }}
    target="_blank" rel="noopener noreferrer"
+   {{ else }}
+   class="internal-link"
    {{ end }}>
     {{ .Text | safeHTML }}
 </a>
